@@ -2,8 +2,8 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script src="../vue.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/layui@2.6.8/dist/css/layui.css" />
@@ -82,24 +82,30 @@
     <div id="app">
         <form v-show="xiugai_box">
             <h2>{{tianjia}}</h2>
-            人物:<input type="text" v-model="name"><br>
-            民族:<input type="text" v-model="country"><br>
-            格言:<input type="text" v-model="Quote"><br>
-            <button type="button" class="layui-btn layui-btn-xs" @click="xiu_BOX">{{tianjia}}</button>
-            <button type="button" class="layui-btn layui-btn-warm layui-btn-xs" @click="quxiao_box">取消</button>
+            人物:<input type="text" v-model="name" /><br />
+            民族:<input type="text" v-model="country" /><br />
+            格言:<input type="text" v-model="Quote" /><br />
+            <button type="button" class="layui-btn layui-btn-xs" @click="xiu_BOX">
+                {{tianjia}}
+            </button>
+            <button type="button" class="layui-btn layui-btn-warm layui-btn-xs" @click="quxiao_box">
+                取消
+            </button>
         </form>
         <table border="1">
-            <button type="button" id="tian" class="layui-btn layui-btn-normal layui-btn-sm"
-                @click="tian(index)">添加表单</button>
+            <button type="button" id="tian" class="layui-btn layui-btn-normal layui-btn-sm" @click="tian(index)">
+                添加表单
+            </button>
             <input type="text" name="" id="sou" style="width: 200px; height: 25px" placeholder="请输入搜索人物····"
                 v-model="search" @keyup.enter="searchfun()" />
             <colgroup>
-                <col width="150">
-                <col width="150">
-                <col>
+                <col width="100" />
+                <col width="100" />
+                <col />
             </colgroup>
             <thead>
                 <tr>
+                    <th><input type="checkbox" v-model="all" @click="quan()" /></th>
                     <th>人物</th>
                     <th>民族</th>
                     <th>格言</th>
@@ -109,15 +115,20 @@
             <tbody v-for="(item,index) of flag?newarr:list" :class="flags==index?'sky':''" @mouseleave="leave()"
                 @mouseenter="enter(index)" v-color="index">
                 <tr>
+                    <td><input type="checkbox" name="" id="" :checked="item.on" /></td>
                     <td>{{item.name}}</td>
                     <td>{{item.country}}</td>
                     <td>{{item.Quote}}</td>
                     <td>
-                        <button type="button" class="layui-btn layui-btn-sm" @click="xiu(index)">修改</button>
-                        <button type="button" class="layui-btn layui-btn-danger layui-btn-sm"
-                            @click="shan(index)">删除</button>
-                        <button type="button" class="layui-btn layui-btn-normal layui-btn-sm"
-                            @click="cha(index)">查看</button>
+                        <button type="button" class="layui-btn layui-btn-sm" @click="xiu(index)">
+                            修改
+                        </button>
+                        <button type="button" class="layui-btn layui-btn-danger layui-btn-sm" @click="shan(index)">
+                            删除
+                        </button>
+                        <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" @click="cha(index)">
+                            查看
+                        </button>
                     </td>
                 </tr>
             </tbody>
@@ -138,67 +149,73 @@
                     newarr: [],
                     flags: false,
                     flag: false,
+                    all: false,
                     list: [
                         {
                             name: "孔子",
                             country: "华夏",
-                            Quote: "有朋至远方来，不亦乐乎"
+                            Quote: "有朋至远方来，不亦乐乎",
+                            on: false,
                         },
                         {
                             name: "孟子",
                             country: "华夏",
-                            Quote: "穷则独善其身，达则兼济天下"
+                            Quote: "穷则独善其身，达则兼济天下",
+                            on: false,
                         },
                         {
                             name: "李世民",
                             country: "华夏",
-                            Quote: "夫以铜为镜,可以正衣冠; 以史为镜,可以知兴替;以人为镜,可以明得失"
+                            Quote:
+                                "夫以铜为镜,可以正衣冠; 以史为镜,可以知兴替;以人为镜,可以明得失",
+                            on: false,
                         },
                         {
                             name: "李维",
                             country: "华夏",
-                            Quote: "研究历史是医治心灵疾病的良药。"
+                            Quote: "研究历史是医治心灵疾病的良药。",
+                            on: false,
                         },
                         {
                             name: "廖沫沙",
                             country: "华夏",
-                            Quote: "历史是一面镜子，也是一本深刻的教科书。"
+                            Quote: "历史是一面镜子，也是一本深刻的教科书。",
+                            on: false,
                         },
-                    ]
-                }
+                    ],
+                };
             },
             methods: {
                 //删除
                 shan(i) {
                     if (confirm("确定要删除吗？")) {
-                        this.list.splice(i, 1)
+                        this.list.splice(i, 1);
                     }
                 },
                 //添加
                 tian() {
-                    this.name=''
-                    this.country='';
-                    this.Quote='';
+                    this.name = "";
+                    this.country = "";
+                    this.Quote = "";
                     this.xiugai_box = !this.xiugai_box;
-                    this.tianjia = '添加表单'
+                    this.tianjia = "添加表单";
                 },
                 xiu_BOX() {
                     //判断表单标题是否为添加表单否则为修改
-                    if (this.tianjia === '添加表单') {
+                    if (this.tianjia === "添加表单") {
                         this.xiugai_box = !this.xiugai_box;
                         const newForm = {
                             name: this.name,
                             country: this.country,
                             Quote: this.Quote,
-                        }
-                        this.list.push(newForm)
+                        };
+                        this.list.push(newForm);
                         //添加完表单数据清空
                         this.name = "";
                         this.country = "";
                         this.Quote = "";
-
                     } else {
-                        this.xiugai_box = !this.xiugai_box
+                        this.xiugai_box = !this.xiugai_box;
                         this.list[this.nameS].name = this.name;
                         this.list[this.nameS].country = this.country;
                         this.list[this.nameS].Quote = this.Quote;
@@ -209,12 +226,12 @@
                 },
                 //表单隐藏/显示
                 quxiao_box() {
-                    this.xiugai_box = !this.xiugai_box
+                    this.xiugai_box = !this.xiugai_box;
                 },
                 //修改
                 xiu(index) {
-                    this.tianjia = '修改表单'
-                    this.xiugai_box = !this.xiugai_box
+                    this.tianjia = "修改表单";
+                    this.xiugai_box = !this.xiugai_box;
                     this.name = this.list[index].name;
                     this.country = this.list[index].country;
                     this.Quote = this.list[index].Quote;
@@ -222,8 +239,8 @@
                 },
                 //查看
                 cha(index) {
-                    this.tianjia = '查看表单'
-                    this.xiugai_box = !this.xiugai_box
+                    this.tianjia = "查看表单";
+                    this.xiugai_box = !this.xiugai_box;
                     this.name = this.list[index].name;
                     this.country = this.list[index].country;
                     this.Quote = this.list[index].Quote;
@@ -247,6 +264,17 @@
                 leave() {
                     this.flags = -1;
                 },
+                quan() {
+                    if (this.all == false) {
+                        for (let i = 0; i < this.list.length; i++) {
+                            this.list[i].on = true;
+                        }
+                    } else {
+                        for (let i = 0; i < this.list.length; i++) {
+                            this.list[i].on = false;
+                        }
+                    }
+                },
             },
             directives: {
                 //自定义隔行换色
@@ -256,9 +284,9 @@
                     } else {
                         obj.style.backgroundColor = "#ccccef";
                     }
-                }
-            }
-        })
+                },
+            },
+        });
     </script>
 </body>
 
