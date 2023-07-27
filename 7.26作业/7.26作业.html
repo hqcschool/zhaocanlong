@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src=""></script>
+    <script src="../vue.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/layui@2.6.8/dist/css/layui.css" />
+    <!-- 引入 layui.js -->
+    <script src="https://unpkg.com/layui@2.6.8/dist/layui.js"></script>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    table {
+        margin: 10vh auto;
+        width: 60vw;
+        text-align: center;
+    }
+
+    table thead,
+    tbody {
+        height: 6vh;
+    }
+
+    table th,
+    td {
+        padding: 10px;
+    }
+
+    table button {
+        margin-left: 10px;
+    }
+</style>
+<style>
+    #app {
+        position: relative;
+    }
+
+    h2 {
+        margin-top: 10px;
+    }
+
+    form {
+        position: absolute;
+        top: 50vh;
+        left: 50vw;
+        transform: translate(-50%, -50%);
+        /* 垂直和水平居中 */
+        text-align: center;
+        width: 250px;
+        height: 200px;
+        background-color: antiquewhite;
+        border-radius: 5px;
+        z-index: 1;
+    }
+
+    button {
+        margin-top: 10px;
+    }
+
+    input {
+        margin-top: 10px;
+    }
+
+    #tian {
+        position: relative;
+        top: 9vh;
+        left: 20%;
+    }
+
+    #sou {
+        position: relative;
+        top: 10vh;
+        left: 21%;
+    }
+
+    #suo {
+        position: relative;
+        top: 9.2vh;
+        left: 21.5%;
+    }
+</style>
+<style>
+    #About {
+        position: absolute;
+        left: 20%;
+    }
+
+    #About select,
+    option {
+        padding: 6px;
+    }
+
+    #About input {
+        width: 160px;
+        height: 26px;
+    }
+
+    #About button {
+        padding: 5.5px;
+    }
+</style>
+
+<body>
+    <div id="app">
+        <form v-show="xiugai_box">
+            <h2>{{tianjia}}</h2>
+            姓名:<input type="text" v-model="name"><br>
+            性别:<input type="text" v-model="sex"><br>
+            电话:<input type="text" v-model="Telephone"><br>
+            爱好:<input type="text" v-model="hobby"><br>
+            <button type="button" class="layui-btn layui-btn-xs" @click="xiu_BOX">{{tianjia}}</button>
+            <button type="button" class="layui-btn layui-btn-warm layui-btn-xs" @click="quxiao_box">取消</button>
+        </form>
+        <table border="1" style="border-collapse: collapse;">
+            <button type="button" id="tian" class="layui-btn layui-btn-normal layui-btn-sm"
+                @click="tian(index)">添加表单</button>
+            <input type="text" name="" id="sou" style="width: 200px; height: 25px" placeholder="请输入搜索名称····"
+                v-model="search" @keyup.enter="searchfun()" />
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>电话</th>
+                    <th>爱好</th>
+                    <th>编辑</th>
+                </tr>
+            </thead>
+            <tbody v-for="(item,index) of flag?newarr:list"  >
+                <tr>
+                    <td>{{index+1}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.sex}}</td>
+                    <td>{{item.Telephone}}</td>
+                    <td>{{item.hobby}}</td>
+                    <td>
+                        <button type="button" class="layui-btn layui-btn-sm" @click="xiu(index)">修改</button>
+                        <button type="button" class="layui-btn layui-btn-danger layui-btn-sm"
+                            @click="shan(index)">删除</button>
+                        <button type="button" class="layui-btn layui-btn-normal layui-btn-sm"
+                            @click="cha(index)">查看</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+                    tianjia: '添加表单',
+                    xiugai_box: false,
+                    name: "",
+                    sex: "",
+                    Telephone: "",
+                    hobby: "",
+                    nameS: "",
+                    //搜索声明一个空
+                    /* seachInp: '',
+                    list_seach: [], */
+                    search: "",
+                    newarr: [],
+                    flag: false,
+                    list: [
+                        {
+                            name: "李某某",
+                            sex: "男",
+                            Telephone: "153*****167",
+                            hobby: "唱跳、篮球、长跑"
+                        },
+                        {
+                            name: "赵某某",
+                            sex: "男",
+                            Telephone: "153*****167",
+                            hobby: "唱跳、篮球、长跑"
+                        },
+                        {
+                            name: "懂某某",
+                            sex: "男",
+                            Telephone: "153*****167",
+                            hobby: "唱跳、篮球、长跑"
+                        },
+                    ],
+                }
+            },
+            methods: {
+                shan(i) {
+                    if (confirm("确定要删除吗？")) {
+                        this.list.splice(i, 1)
+                    }
+                },
+                tian() {
+                    this.xiugai_box = !this.xiugai_box;
+                    this.tianjia = '添加表单'
+
+                },
+                xiu(index) {
+                    this.tianjia = '修改表单'
+                    this.xiugai_box = !this.xiugai_box
+                    this.name = this.list[index].name;
+                    this.sex = this.list[index].sex;
+                    this.Telephone = this.list[index].Telephone;
+                    this.hobby = this.list[index].hobby;
+                    this.nameS = index;
+                },
+                xiu_BOX() {
+                    //判断表单标题是否为添加表单否则为修改
+                    if (this.tianjia === '添加表单') {
+                        this.xiugai_box = !this.xiugai_box;
+                        const newForm = {
+                            name: this.name,
+                            sex: this.sex,
+                            Telephone: this.Telephone,
+                            hobby: this.hobby
+                        }
+                        this.list.push(newForm)
+                        //添加完表单数据清空
+                        this.name = "";
+                        this.sex = "";
+                        this.Telephone = "";
+                        this.hobby = "";
+
+                    } else {
+                        this.xiugai_box = !this.xiugai_box
+                        this.list[this.nameS].name = this.name;
+                        this.list[this.nameS].sex = this.sex;
+                        this.list[this.nameS].Telephone = this.Telephone;
+                        this.list[this.nameS].hobby = this.hobby;
+                        this.name = "";
+                        this.sex = "";
+                        this.Telephone = "";
+                        this.hobby = "";
+                    }
+                },
+                quxiao_box() {
+                    this.xiugai_box = !this.xiugai_box
+                },
+                cha(index) {
+                    this.tianjia = '查看表单'
+                    this.xiugai_box = !this.xiugai_box
+                    this.name = this.list[index].name;
+                    this.sex = this.list[index].sex;
+                    this.Telephone = this.list[index].Telephone;
+                    this.hobby = this.list[index].hobby;
+                },
+                /* handleEnter(event) {
+                    if (this.seachInp != '') {
+                        console.log(2);
+                        for (let j = 0; j < this.list.length; j++) {
+                            if (this.list[j].name.includes(this.seachInp)) {
+                                this.list_seach.push(this.list[j]);
+                                this.list = this.list_seach;
+                                this.list_seach = []
+                            }
+                        }
+                    }
+                }, */
+                searchfun() {
+                    if (this.search != "") {
+                        this.flag = true;
+                        this.newarr = this.list.filter((item) => {
+                            if (item.name.includes(this.search)) {
+                                return item;
+                            }
+                        });
+                    } else {
+                        this.flag = false;
+                    }
+                },
+            }
+        })
+    </script>
+    <div id="About">
+        <h2>计算机</h2>
+        <input v-model="num1" type="text">
+        <select v-model="operator">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">*</option>
+            <option value="/">/</option>
+        </select>
+        <input v-model="num2" type="text">
+        <button @click="calculate">=</button>
+        <p>结果：{{ result }}</p>
+    </div>
+    <script>
+        new Vue({
+            el: '#About',
+            data: {
+                num1: "",
+                num2: "",
+                operator: '+',
+                result: 0
+            },
+            methods: {
+                calculate() {
+                    switch (this.operator) {
+                        case '+':
+                            this.result = parseInt(this.num1) + parseInt(this.num2);
+                            break;
+                        case '-':
+                            this.result = parseInt(this.num1) - parseInt(this.num2);
+                            break;
+                        case '*':
+                            this.result = parseInt(this.num1) * parseInt(this.num2);
+                            break;
+                        case '/':
+                            this.result = parseInt(this.num1) / parseInt(this.num2);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
