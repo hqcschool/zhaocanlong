@@ -18,6 +18,8 @@
 
     #app {
         position: relative;
+        width: 100vw;
+        height: 100vh;
     }
 
     table {
@@ -25,12 +27,14 @@
         width: 80vw;
         text-align: center;
     }
-
+    #quanshan{
+        margin-top: -5%;
+        margin-left: 10%;
+    }
     table thead,
     tbody {
         height: 6vh;
     }
-
     table th {
         background-color: rgb(251, 232, 232);
     }
@@ -76,6 +80,7 @@
     .sky {
         background-color: rgb(255, 162, 162) !important;
     }
+    
 </style>
 
 <body>
@@ -98,14 +103,16 @@
             </button>
             <input type="text" name="" id="sou" style="width: 200px; height: 25px" placeholder="请输入搜索人物····"
                 v-model="search" @keyup.enter="searchfun()" />
-            <colgroup>
+                <colgroup>
                 <col width="100" />
                 <col width="100" />
                 <col />
             </colgroup>
             <thead>
                 <tr>
-                    <th><input type="checkbox" v-model="all" @click="quan()" /></th>
+                    <th><input type="checkbox" v-model="selectAll" @change="selectAllItems">
+                        <label for="selectAll">全选</label>
+                    </th>
                     <th>人物</th>
                     <th>民族</th>
                     <th>格言</th>
@@ -115,11 +122,17 @@
             <tbody v-for="(item,index) of flag?newarr:list" :class="flags==index?'sky':''" @mouseleave="leave()"
                 @mouseenter="enter(index)" v-color="index">
                 <tr>
-                    <td><input type="checkbox" name="" id="" :checked="item.on" /></td>
+                    <td><input type="checkbox" v-model="item.selected"></td>
                     <td>{{item.name}}</td>
                     <td>{{item.country}}</td>
                     <td>{{item.Quote}}</td>
                     <td>
+                        <button type="button" class="layui-btn layui-btn-sm" style="background-color: rgb(198, 158, 255);" @click="shang(index)">
+                            上移
+                        </button>
+                        <button type="button" class="layui-btn layui-btn-warm layui-btn-sm" @click="xia(index)">
+                            下移
+                        </button>
                         <button type="button" class="layui-btn layui-btn-sm" @click="xiu(index)">
                             修改
                         </button>
@@ -133,6 +146,7 @@
                 </tr>
             </tbody>
         </table>
+        <button type="button" id="quanshan" class="layui-btn layui-btn-danger layui-btn-sm" @click="deleteSelectedItems">删除选中项</button>
     </div>
     <script>
         new Vue({
@@ -149,43 +163,59 @@
                     newarr: [],
                     flags: false,
                     flag: false,
-                    all: false,
+                    selectAll: false,
                     list: [
                         {
                             name: "孔子",
                             country: "华夏",
                             Quote: "有朋至远方来，不亦乐乎",
-                            on: false,
+                            selected: false
                         },
                         {
                             name: "孟子",
                             country: "华夏",
                             Quote: "穷则独善其身，达则兼济天下",
-                            on: false,
+                            selected: false
                         },
                         {
                             name: "李世民",
                             country: "华夏",
                             Quote:
                                 "夫以铜为镜,可以正衣冠; 以史为镜,可以知兴替;以人为镜,可以明得失",
-                            on: false,
+                            selected: false
                         },
                         {
                             name: "李维",
                             country: "华夏",
                             Quote: "研究历史是医治心灵疾病的良药。",
-                            on: false,
+                            selected: false
                         },
                         {
                             name: "廖沫沙",
                             country: "华夏",
                             Quote: "历史是一面镜子，也是一本深刻的教科书。",
-                            on: false,
+                            selected: false
                         },
                     ],
                 };
             },
             methods: {
+                //上移
+                shang(index){
+                    if(index > 0){
+                    const tem =this.list[index];
+                    this.list.splice(index, 1)
+                    this.list.splice(index-1,0,tem)
+                    }
+                },
+                //下移
+                xia(index){
+                    if(index > -1){
+                    const qem =this.list[index];
+                    this.list.splice(index, 1)
+                    this.list.splice(index+1,0,qem)
+                    }
+                },
                 //删除
                 shan(i) {
                     if (confirm("确定要删除吗？")) {
@@ -264,17 +294,20 @@
                 leave() {
                     this.flags = -1;
                 },
-                quan() {
-                    if (this.all == false) {
-                        for (let i = 0; i < this.list.length; i++) {
-                            this.list[i].on = true;
-                        }
-                    } else {
-                        for (let i = 0; i < this.list.length; i++) {
-                            this.list[i].on = false;
-                        }
+                //全选/删除
+                selectAllItems() {
+                    for (let i = 0; i < this.list.length; i++) {
+                        this.list[i].selected = this.selectAll;
                     }
                 },
+                deleteSelectedItems() {
+                    for (let i = this.list.length - 1; i >= 0; i--) {
+                        if (this.list[i].selected) {
+                            this.list.splice(i, 1);
+                        }
+                    }
+                }
+                
             },
             directives: {
                 //自定义隔行换色
