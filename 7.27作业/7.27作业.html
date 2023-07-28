@@ -301,13 +301,14 @@
                     }
                 },
                 deleteSelectedItems() {
+                    if (confirm("确定要删除选中的吗？")) {
                     for (let i = this.list.length - 1; i >= 0; i--) {
                         if (this.list[i].selected) {
-                            this.list.splice(i, 1);
+                                this.list.splice(i, 1);
+                            }
                         }
                     }
                 }
-                
             },
             directives: {
                 //自定义隔行换色
@@ -322,5 +323,4 @@
         });
     </script>
 </body>
-
 </html>
