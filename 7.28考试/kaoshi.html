@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/layui@2.6.8/dist/css/layui.css" />
+    <!-- 引入 layui.js -->
+    <script src="https://unpkg.com/layui@2.6.8/dist/layui.js"></script>
+</head>
+<style>
+    * {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    #app {
+        position: relative;
+        width: 100%;
+        height: 1500px;
+    }
+
+    .parent {
+        margin-top: 10px;
+        position: absolute;
+        left: 10%;
+        display: flex;
+        flex-wrap: wrap;
+        width: 80%;
+        height: 680px;
+        border-bottom: 1px solid black;
+    }
+
+    .child {
+        margin: 10px;
+        margin-top: 10px;
+        margin-left: 14px;
+        width: 225px;
+        height: 310px;
+        border: 1px solid rgb(217, 217, 217);
+    }
+
+    ul li {
+        list-style: none;
+    }
+
+    .shang {
+        width: 100%;
+        height: 60%;
+        background-color: blueviolet;
+    }
+
+    .shang img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .xia {
+        width: 100%;
+        height: 40%;
+    }
+
+    .temai {
+        position: relative;
+        top: 10px;
+        left: 5px;
+        width: 50px;
+        height: 25px;
+        font-size: 13px;
+        text-align: center;
+        line-height: 25px;
+        border-radius: 50px;
+        background: linear-gradient(to right, #ff9595, #ff6bbf);
+        color: white;
+    }
+
+    .prices {
+        position: relative;
+        top: -17px;
+        left: 55px;
+    }
+
+    .shanchu {
+        position: relative;
+        top: -40px;
+        left: 125px;
+        font-size: 15px;
+        color: rgb(153, 153, 153);
+    }
+
+    .pp {
+        position: relative;
+        top: -60px;
+        left: 170px;
+        font-size: 15px;
+        color: rgb(153, 153, 153);
+    }
+
+    .wenben {
+        position: relative;
+        top: -50px;
+        left: 3px;
+        font-size: 15px;
+        color: rgb(153, 153, 153);
+    }
+</style>
+<style>
+    .layui-table {
+        position: relative;
+        top: 750px;
+        width: 80vw;
+        margin: auto;
+    }
+
+    td img {
+        position: relative;
+        left: -40px;
+    }
+
+    .yanse {
+        color: rgb(226, 43, 137);
+        font-weight: 600;
+    }
+
+    #txt {
+        display: inline;
+    }
+</style>
+<style>
+    #bottom {
+        position: fixed;
+        left: 9.5%;
+        bottom: 0;
+        width: 80vw;
+        height: 25vh;
+    }
+
+    .shang_box {
+        width: 99.85%;
+        height: 64%;
+        border: 1px solid rgb(215, 215, 215);
+        background-color: white;
+    }
+
+    .shang_box p {
+        float: right;
+        margin-right: 50px;
+        position: relative;
+        top: 40px;
+    }
+
+    .shang_box span {
+        font-weight: 600;
+    }
+
+    .shang_box i {
+        color: rgb(226, 43, 137);
+    }
+
+    .jiesuan {
+        color: rgb(226, 43, 137);
+    }
+
+    .xia_box {
+        display: flex;
+        width: 100%;
+        height: 35%;
+        background-color: rgb(228, 228, 228);
+    }
+
+    .left {
+        width: 70%;
+        font-size: 16px;
+        line-height: 80px;
+    }
+
+    .left p {
+        float: right;
+    }
+
+    .right {
+        flex: 1;
+        color: white;
+        font-size: 24px;
+        width: 100%;
+        height: 100%;
+        font-weight: 500;
+        line-height: 80px;
+        background-color: rgb(226, 43, 137);
+    }
+
+    .right span {
+        position: relative;
+        left: 80px;
+    }
+
+    #box_jiao_top {
+        position: absolute;
+        top: 710px;
+        left: 180px;
+        color: rgb(226, 43, 137);
+    }
+
+    #boxjiao_zhong {
+        position: absolute;
+        top: 730px;
+        left: 180px;
+    }
+</style>
+
+<body>
+    <div id="app">
+        <div>
+            <ul class="parent">
+                <li class="child" @dblclick="addy(index)" v-for="(item,index) in list" :key="index">
+                    <div class="shang"><img :src="item.image"></div>
+                    <div class="xia">
+                        <div class="temai">{{item.biaoqi}}</div>
+                        <h2 class="prices">￥{{item.price}}</h2>
+                        <del class="shanchu">￥{{item.shanchu}}</del>
+                        <p class="pp">{{item.pp}}</p>
+                        <p class="wenben">{{item.wenben}}</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <table class="layui-table" lay-skin="line">
+            <div id="box_jiao_top">
+                <p>特卖商品 时间{{time}}</p>
+                <div class="xian"></div>
+            </div><br>
+            <div id="boxjiao_zhong">
+                <p>配送至<b>广州市</b> &nbsp;|&nbsp; 勾选商品“<input type="checkbox" name="" id="">”即可锁定库存20分钟，倒计时内不用担心商品被抢走~</p>
+            </div>
+            <colgroup>
+                <col width="120">
+                <col width="120">
+                <col>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th>商品</th>
+                    <th>单价</th>
+                    <th>数量</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item,index) in items">
+                    <td><input type="checkbox" :checked="item.on" @click="kuang(index)"></td>
+                    <td><img :src="item.image"></td>
+                    <td>{{item.wenben}}</td>
+                    <td class="yanse">{{item.price | fun}}</td>
+                    <td>
+                        <button style="width: 20px; height: 20px" @click="reduce(index)">
+                            -
+                        </button>
+                        <div id="txt">{{item.num}}</div>
+                        <button style="width: 20px; height: 20px" @click="add(index)">
+                            +
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="layui-btn layui-btn-danger layui-btn-sm" @click="shan(index)">
+                            删除
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="bottom">
+            <div class="shang_box">
+                <P>共 <i>{{num1()}}</i> 件商品&nbsp;商品金额&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>{{allmoney() |
+                        fun}}</span></P>
+                <br><br>
+                <P>总金额&nbsp;(未含运费)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="jiesuan">{{allmoney() | fun}}</span>
+                </P>
+            </div>
+            <div class="xia_box">
+                <div class="left">
+                    <p>请在倒计时结束前结算</p>
+                </div>
+                <div class="right"><span>立即结算</span></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+                    image: "",
+                    shanchu: "",
+                    num: "",
+                    wenben: "",
+                    time: '',//时间
+                    items: [],
+                    list: [
+                        {
+                            image: "https://h2.appsimg.com/a.appsimg.com/upload/merchandise/pdcvop/00103437/10001351/862896630-1153561581053259776-1153561581053259784-1_470x470_90.jpg",
+                            biaoqi: "特卖价",
+                            price: 79,
+                            shanchu: 358,
+                            pp: "2.2折",
+                            on: false,
+                            num: 1,
+                            wenben: "【口碑推荐】修身t恤女时尚短袖短款印花圆领上衣T恤女装"
+                        },
+                        {
+                            image: "https://h2.appsimg.com/a.appsimg.com/upload/merchandise/pdcvop/00103437/10001351/874185573-1895248281954103296-1895248281954103298-1_470x470_90.jpg",
+                            biaoqi: "特卖价",
+                            price: 69,
+                            shanchu: 398,
+                            pp: "1.7折",
+                            on: false,
+                            num: 1,
+                            wenben: "【2023年夏季新款】撞色纯棉短款辣妹T恤女装直筒短袖印花上衣"
+                        },
+                        {
+                            image: "https://h2.appsimg.com/a.appsimg.com/upload/merchandise/pdcvop/00103437/10001351/653050074-2903773119579004928-2903773119579004930-1_470x470_90.jpg",
+                            biaoqi: "特卖价",
+                            price: 259,
+                            shanchu: 598,
+                            pp: "2.8折",
+                            on: false,
+                            num: 1,
+                            wenben: "【2023年夏季新款】经典翻驳领简约设计感西装通勤百搭上衣"
+                        },
+                        {
+                            image: "https://h2.appsimg.com/a.appsimg.com/upload/merchandise/pdcvop/00103437/10001351/40463560-4064012950990737408-4064012950990737410-1_470x470_90.jpg",
+                            biaoqi: "特卖价",
+                            price: 299,
+                            shanchu: 628,
+                            pp: "2.4折",
+                            on: false,
+                            num: 1,
+                            wenben: "【2023年春季新款】复古时尚通勤西装外套气质个性宽松外套女"
+                        },
+                        {
+                            image: "https://h2.appsimg.com/a.appsimg.com/upload/merchandise/pdcvop/00103437/10001351/572363355-1876952271215431680-1876952271215439873-1_470x470_90.jpg",
+                            biaoqi: "特卖价",
+                            price: 69,
+                            shanchu: 398,
+                            pp: "1.7折",
+                            on: false,
+                            num: 1,
+                            wenben: "【口碑推荐】百搭气质休闲针织T恤女透气修身薄款衫上衣女装"
+                        },
+                        {
+                            image: "https://h2.appsimg.com/a.appsimg.com/upload/merchandise/pdcvop/00103437/10001351/173730273-1611521357575217152-1611521357575217154-1_470x470_90.jpg",
+                            biaoqi: "特卖价",
+                            price: 89,
+                            shanchu: 498,
+                            pp: "1.8折",
+                            on: false,
+                            num: 1,
+                            wenben: "【口碑推荐】短袖t恤上衣女法式复古通勤V领刺绣修身女装"
+                        },
+                        {
+                            image: "https://h2.appsimg.com/a.appsimg.com/upload/merchandise/pdcvis/103437/2023/0427/2/9177795e-4159-452f-9f48-e93e8ddc4698_470x470_90.jpg",
+                            biaoqi: "特卖价",
+                            price: 143,
+                            shanchu: 478,
+                            pp: "3.0折",
+                            on: false,
+                            num: 1,
+                            wenben: "【莱赛尔面料】花边领系带蝴蝶结衬衫泡泡袖优雅简约上衣女"
+                        },
+                        {
+                            image: "https://h2.appsimg.com/a.appsimg.com/upload/merchandise/pdcvop/00103437/10001351/258020226-1541152741157171200-1541152741157171202-1_470x470_90.jpg",
+                            biaoqi: "特卖价",
+                            price: 99,
+                            shanchu: 498,
+                            pp: "2.0折",
+                            on: false,
+                            num: 1,
+                            wenben: "【口碑推荐】高级感纯棉字母上衣显瘦遮肉宽松T恤"
+                        },
+                        {
+                            image: "https://h2.appsimg.com/a.appsimg.com/upload/merchandise/pdcvop/00103437/10001351/2095684000-1310906095461060608-1310906095461060616-1_470x470_90.jpg",
+                            biaoqi: "特卖价",
+                            price: 119,
+                            shanchu: 698,
+                            pp: "1.7折",
+                            on: false,
+                            num: 1,
+                            wenben: "【口碑推荐】轻薄衬衫女口碑推荐气质通勤撞色泡泡袖V领衬衣上衣"
+                        },
+                        {
+                            image: "https://h2.appsimg.com/a.appsimg.com/upload/merchandise/pdcvop/00103437/10001351/258020226-1541152741157171200-1541152741157171202-1_470x470_90.jpg",
+                            biaoqi: "特卖价",
+                            price: 99,
+                            shanchu: 498,
+                            pp: "2.0折",
+                            on: false,
+                            num: 1,
+                            wenben: "【口碑推荐】高级感纯棉字母上衣显瘦遮肉宽松T恤"
+                        },
+                    ],
+                    items: [
+                        {
+                            image: "https://h2.appsimg.com/a.appsimg.com/upload/merchandise/pdcvop/00103437/10001351/862896630-1153561581053259776-1153561581053259784-1_470x470_90.jpg",
+                            wenben: "【口碑推荐】修身t恤女时尚短袖短款印花圆领上衣T恤女装",
+                            price: 78,
+                            num: 1,
+                            on: false,
+                        },
+                        {
+                            image: "https://h2.appsimg.com/a.appsimg.com/upload/merchandise/pdcvop/00103437/10001351/40463560-4064012950990737408-4064012950990737410-1_470x470_90.jpg",
+                            wenben: "【2023年春季新款】复古时尚通勤西装外套气质个性宽松外套女",
+                            price: 299,
+                            num: 1,
+                            on: false,
+                        },
+                    ]
+                }
+            },
+            methods: {
+                //添加
+                addy(index) {
+                    this.items.push({
+                        image: this.list[index].image,
+                        wenben: this.list[index].wenben,
+                        price: this.list[index].price,
+                        num: this.list[index].num,
+                    });
+                    // console.log(index,item);
+
+                },
+                //删除
+                shan(i) {
+                    if (confirm("确定要删除吗？")) {
+                        this.items.splice(i, 1);
+                    }
+                },
+                //加/减商品
+                add(index) {
+                    this.items[index].num++;
+                },
+                reduce(index) {
+                    if (this.items[index].num == 1) {
+                        confirm("至少选择一件商品");
+                        return;
+                    }
+                    this.items[index].num--;
+                },
+                allmoney() {
+                    let allhe = 0;
+                    for (let i = 0; i < this.items.length; i++) {
+                        if (this.items[i].on == true) {
+                            allhe += this.items[i].num * this.items[i].price;
+                        }
+                    }
+                    return allhe;
+                },
+                num1() {
+                    let quantity = 0;
+                    for (let i = 0; i < this.items.length; i++) {
+                        if (this.items[i].on == true) {
+                            quantity++;
+                        }
+                    }
+                    return quantity;
+                },
+                kuang(index) {
+                    this.items[index].on = !this.items[index].on;
+                    if (this.items[index].on) {
+                        this.time = 10;
+                        this.times = setInterval(() => {
+                            this.time--;
+                            console.log(1);
+                            if (this.time === 0) {
+                                this.time = '';
+                                clearInterval(this.times);
+                                this.$set(this.items[index],'on',false);
+                            }
+                        }, 1000);
+                    } 
+                },
+            },
+            computed: {
+                // 计算总价
+                price: function () {
+                    return this.num * this.price;
+                },
+            },
+            filters: {
+                // 过滤
+                fun: function (value) {
+                    return "￥" + value;
+                },
+            }
+        })
+    </script>
+</body>
+
+</html>
