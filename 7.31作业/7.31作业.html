@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+<style>
+    * {
+        margin: 0px;
+        padding: 0px;
+        background-color: rgb(245, 245, 245);
+    }
+
+    .TT {
+        margin-top: 50px;
+        text-align: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    .TT img {
+        position: relative;
+        top: -82px;
+        left: -260px;
+        width: 30px;
+        background-color: white;
+    }
+
+    .TT .new-todo {
+        width: 600px;
+        margin-top: 30px;
+        margin-left: -20px;
+        margin-bottom: 30px;
+        padding: 20px;
+        padding-left: 60px;
+        border: 1px solid rgb(247, 247, 247);
+        background-color: rgb(255, 255, 255);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .TT .new-todo::placeholder {
+        color: #dddddd;
+    }
+
+    .TT .new-todo:focus {
+        outline: none;
+        border-color: transparent;
+    }
+
+    i {
+        position: relative;
+        top: -82px;
+        left: -262px;
+        background-color: white;
+    }
+
+    svg {
+        z-index: 1;
+        background-color: white;
+    }
+
+    .toubu {
+        width: 100%;
+        height: 100%;
+        font-size: 100px;
+        color: rgb(235, 212, 212);
+        transform: scaleY(1.1);
+        transform: scaleX(1);
+        display: inline-block;
+    }
+
+    body {
+        font: 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
+        line-height: 1.4em;
+        background: #f5f5f5;
+        color: #4d4d4d;
+        min-width: 230px;
+        max-width: 550px;
+        margin: 0 auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-weight: 300;
+    }
+
+    .new-todo {
+        padding: 16px 16px 16px 60px;
+        border: none;
+        background: rgba(0, 0, 0, 0.003);
+        box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.03);
+    }
+
+    .new-todo,
+    .edit {
+        position: relative;
+        margin: 0;
+        width: 100%;
+        font-size: 24px;
+        font-family: inherit;
+        font-weight: inherit;
+        line-height: 1.4em;
+        border: 0;
+        color: inherit;
+        padding: 6px;
+        border: 1px solid #999;
+        box-shadow: inset 0 -1px 5px 0 rgba(0, 0, 0, 0.2);
+        box-sizing: border-box;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    input:not([type="range"]):not([type="color"]) {
+        writing-mode: horizontal-tb !important;
+    }
+
+    .main {
+        position: relative;
+        z-index: 2;
+        border-top: 1px solid #e6e6e6;
+    }
+
+    .info {
+        text-align: center;
+    }
+
+    p {
+        color: #c9c9c9;
+    }
+
+    a {
+        text-decoration: none;
+        color: #c9c9c9;
+    }
+
+    .todo-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        width: 519px;
+        height: 34.7px;
+        margin-top: -65.8px;
+        margin-left: -20px;
+        margin-bottom: 66px;
+        padding: 20px;
+        padding-left: 60px;
+        border: 1px solid rgb(247, 247, 247);
+        background-color: rgb(255, 255, 255);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .todo-list span {
+        position: relative;
+        top: -20px;
+        left: 500px;
+        font-size: 21px;
+        background-color: white;
+        color: rgb(255, 160, 160);
+        cursor: pointer;
+    }
+
+    .todo-list span:hover {
+        color: rgb(217, 18, 18);
+    }
+
+    li {
+        margin-top: -28px;
+        margin-left: 15px;
+        font-size: 26px;
+        background-color: white;
+        color: #9c9c9c;
+    }
+
+    input[type="checkbox"] {
+        position: relative;
+        top: 3px;
+        left: -38px;
+        appearance: none;
+        /* 禁用默认样式 */
+        -webkit-appearance: none;
+        /* 兼容Webkit浏览器 */
+        -moz-appearance: none;
+        /* 兼容Firefox浏览器 */
+        width: 30px;
+        /* 设置宽度 */
+        height: 30px;
+        /* 设置高度 */
+        border-radius: 50%;
+        /* 设置边框半径为50% */
+        border: 2px solid rgb(156, 156, 156);
+        /* 设置边框样式和颜色 */
+        background-color: white;
+    }
+
+    input[type="checkbox"]:checked {
+        border: 2px solid rgb(14, 87, 232);
+        background-color: #43c3ff;
+        /* 设置选中状态下的背景颜色 */
+    }
+
+    .cctv {
+        position: relative;
+        top: -67.5px;
+        left: -20px;
+        width: 599px;
+        height: 35px;
+        border: 1px solid rgb(247, 247, 247);
+        border-top: 1px solid rgb(189, 189, 189);
+        background-color: rgb(255, 255, 255);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .cctv span {
+        height: 35px;
+        line-height: 35px;
+        margin-left: 20px;
+        color: #707070;
+        background-color: white;
+    }
+
+    .cctv button {
+        padding: 5px;
+        border: none;
+        margin-left: 10px;
+        background-color: white;
+        color: #707070;
+    }
+
+    .TA:hover {
+        border: 2px solid rgb(176, 92, 92);
+        border-radius: 4px;
+    }
+
+    .TB:hover {
+        border: 2px solid rgb(176, 92, 92);
+        border-radius: 4px;
+    }
+
+    .TC:hover {
+        border: 2px solid rgb(176, 92, 92);
+        border-radius: 4px;
+    }
+
+    .TA,
+    .TB,
+    .TC {
+        position: relative;
+        left: 70px;
+    }
+
+    .TD {
+        position: relative;
+        left: 200px;
+
+    }
+
+    .TD:hover {
+        text-decoration: underline;
+        color: black;
+    }
+    .yinchang{
+        display: none;
+    }
+    .todo-list:hover .yinchang{
+        width: 10px;
+        display: block;
+    }
+</style>
+<style>
+    .selected {
+        text-decoration: line-through;
+        color: rgb(215, 215, 215);
+    }
+</style>
+
+<body>
+    <div id="app">
+        <div class="TT">
+            <span class="toubu">todos</span>
+            <input class="new-todo" @keyup.enter="handleEnterKey" placeholder="What needs to be done?" v-model="name" />
+            <i @click="selectAllItems">
+                <svg :icon="selectAll ? 'check' : 'cancel'" t="1690851819243" class="icon" viewBox="0 0 1024 1024"
+                    version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="17717" width="32" height="32">
+                    <path
+                        d="M512 598.71232L141.312 301.52192v123.78112L512 722.4832l370.688-297.18016V301.52192L512 598.71232z"
+                        p-id="17718" fill="#cdcdcd"></path>
+                </svg>
+            </i>
+        </div>
+        <section class="main">
+            <ul class="todo-list" v-for="(item,index) in list" :key="index">
+                <input type="checkbox" :value="item.name" v-model="selectedItems" />
+                <li :class="{ 'selected': selectedItems.includes(item.name) }">
+                    {{ item.name }}
+                </li>
+                <span class="yinchang" @click="shan(index)">X</span>
+            </ul>
+            <div class="cctv" v-if="nonebr">
+                <span>{{npm}} items left</span>
+                <button class="TA">All</button>
+                <button class="TB">Active</button>
+                <button class="TC">Completed</button>
+                <button class="TD" @click="deleteSelectedItems" v-if="xiugai_box">
+                    Clear completed
+                </button>
+            </div>
+        </section>
+        <footer class="info">
+            <p>Double-click to edit a todo</p>
+            <p>Written by <a href="http://evanyou.me">Evan You</a></p>
+            <p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
+        </footer>
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data() {
+                name: "";
+                return {
+                    img: "../img/下箭头.png",
+                    list: [],
+                    name: "",
+                    selectAll: false,
+                    selectedItems: [],
+                    npm: 0,
+                    nonebr: false,
+                    iconn: false,
+                    xiugai_box: false,
+                };
+            },
+            methods: {
+                shan(i) {
+                    if (confirm("确定要删除吗？")) {
+                        this.list.splice(i, 1);
+                        this.npm--;
+                        if (this.npm == 0) {
+                            this.nonebr = false
+                        }
+                    }
+                    localStorage.setItem('list', JSON.stringify(this.list));
+                },
+
+                handleEnterKey() {
+                    if (this.name === "") {
+                        return;
+                    } else {
+                        this.list.push({
+                            name: this.name,
+                        });
+                        this.nonebr = true;
+                        this.iconn = true;
+                    }
+                    this.name = "";
+                    this.npm++;
+                    localStorage.setItem('list', JSON.stringify(this.list));
+                },
+                selectAllItems() {
+                    if (this.selectAll) {
+                        this.xiugai_box = !this.selectAll;
+                        this.selectedItems = [];
+                    } else {
+                        this.selectedItems = this.list.map((item) => item.name);
+                        this.xiugai_box = !this.selectAll;
+                    }
+                    this.selectAll = !this.selectAll;
+                },
+                deleteSelectedItems() {
+                    if (confirm("确定要删除吗？")) {
+                        this.list = this.list.filter(item => !this.selectedItems.includes(item.name));
+                        this.selectedItems = [];
+                    }
+                    this.nonebr = false;
+                    this.npm = 0;
+                    this.xiugai_box = false;
+                    localStorage.setItem('list', JSON.stringify(this.list));
+                }
+            },
+            mounted() {
+                // 从本地存储中获取数据
+                const storedItems = localStorage.getItem('list');
+
+                if (storedItems) {
+                    this.list = JSON.parse(storedItems);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
